@@ -1,0 +1,20 @@
+# Compiled binary addons
+dist
+
+# Dependency directory
+node_modules
+
+# Nuxt build
+.nuxt
+
+# env
+.env
+
+# Mac config
+**/.DS_Store
+
+# Temp and testing folder
+logs
+
+# Visual studio code
+.vscode
