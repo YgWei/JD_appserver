@@ -8,6 +8,10 @@ export const User = db.define('User', {
     primaryKey: true,
     type: Sequelize.INTEGER
   },
+  full_name: {
+    allowNull: false,
+    type: Sequelize.STRING
+  },
   first_name: {
     allowNull: false,
     type: Sequelize.STRING
@@ -22,6 +26,7 @@ export const User = db.define('User', {
   },
   status: {
     allowNull: false,
+    defaultValue: 'Active',
     type: Sequelize.STRING
   },
   createdAt: {

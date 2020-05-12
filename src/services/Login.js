@@ -21,10 +21,10 @@ export default class LoginService {
     })
     if (user === null) {
       user = await User.create({
+        full_name: googleUser.name,
         first_name: googleUser.given_name,
         last_name: googleUser.family_name,
-        email: googleUser.email,
-        status: 'active'
+        email: googleUser.email
       })
     }
     console.log('user', user.dataValues)
@@ -33,7 +33,7 @@ export default class LoginService {
       id: user.dataValues.id,
       name: `${user.dataValues.first_name} ${user.dataValues.last_name}`,
       email: user.dataValues.email,
-      gitlab: accessToken.access_token
+      google: accessToken.access_token
     }
     const token = jwt.sign(payload, secret, { expiresIn: '30 days' })
     return token

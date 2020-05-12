@@ -11,27 +11,47 @@ export default class UserController {
   @request('GET', '/user')
   @summary('Get users')
   @query({
-    status: { type: 'string' }
+    status: { type: 'string', required: true, default: 'All' }
   })
   @tag
   @middlewares(
   )
   @responses(schema.findUserResponses)
   static async findUser(ctx) {
-    console.log(ctx.query.status)
     const status = ctx.query.status
     try {
       let res
-      if (status) {
+      if (status === 'All') {
+        res = await User.findAll()
+      } else {
         res = await User.findAll({
           where: {
             status
           }
         })
-      } else {
-        res = await User.findAll()
       }
       return ctx.res.ok(res, SUCCESS.message)
+    } catch (err) {
+      logger.error({ message: err.message, err })
+      return ctx.res.internalServerError(err.name, err.message)
+    }
+  }
+
+  @request('GET', '/userinfo')
+  @summary('Get User Info based on token')
+  @tag
+  @responses(schema.findUserResponses)
+  static async getUserInfo(ctx) {
+    console.log(ctx.state.user)
+    const user = ctx.state.user
+    console.log(user)
+    try {
+      const userInfo = await User.findOne({
+        where: {
+          email: user.email
+        }
+      })
+      return ctx.res.ok(userInfo, SUCCESS.message)
     } catch (err) {
       logger.error({ message: err.message, err })
       return ctx.res.internalServerError(err.name, err.message)
@@ -124,7 +144,7 @@ export default class UserController {
     console.log(ctx.params)
     const id = ctx.params.id
     try {
-      const res = await User.update({ status: 'inactive' }, {
+      const res = await User.update({ status: 'Inactive' }, {
         where: {
           id
         }
