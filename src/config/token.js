@@ -1,1 +1,1 @@
-export const secret = 'jwt_secret'
+export const secret = 'jwt_secret_JD'

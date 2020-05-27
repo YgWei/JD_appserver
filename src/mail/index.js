@@ -13,12 +13,13 @@ const transporter = nodemailer.createTransport({
 })
 
 export const sendMail = async function (fromName, fromEmail, to) {
+  const url = 'http://localhost:8080/login'
   const mailOptions = {
     from: `"${fromName}"  <${fromEmail}>`, // sender address
     to: `${to}`, // list of receivers
     subject: 'Hello new Guy', // Subject line
     text: 'Hello world?', // plain text body
-    html: '<p>Please confirm Your email</p>' // html body
+    html: `Please click this email to confirm your email: <a href="${url}">${url}</a>` // html body
   }
 
   try {
